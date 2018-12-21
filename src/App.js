@@ -58,7 +58,7 @@ const Paragraph = styled.div`
 `;
 
 const Options = styled.div`
-  width: 100%;
+  flex:1;
   display: flex;
   flex-flow: row wrap;
   justify-content: space-around;
@@ -69,23 +69,61 @@ const Result = styled.h1`
   color: black;
 `
 
+const Choice = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+`
+
+const Text = styled(TitleScore)`
+  color: #951B00;
+`;
+
+
 class App extends Component {
   constructor(){
     super()
+    this.handleClick = this.handleClick.bind(this)
+
     this.state = {
       score:{
         pc:0,
         player:0
       },
       options:[{'text':'Piedra', 'color': '#CCCCCC'}, {'text':'Papel', 'color':'#FFFFFF'},{'text':'Tijera','color':'#5F92EA'}],
+      choice:'',
+      pcChoice:'',
+      winner:''
     }
   }
 
   handleClick(element){
     const choice = element.target.value;
+    let pc = Math.floor((Math.random() * this.state.options.length));
+    pc = this.state.options[pc].text;
+    this.setState({
+      choice,
+      pcChoice:pc
+    })
+
+    if (choice === pc) {
+      this.setState({winner:'Empate'})
+    }else {
+      if ((choice === 'Piedra' && pc === 'Tijera') || (choice === 'Papel' && pc === 'Piedra') || (choice === 'Tijera' && pc === 'Papel')) {
+        this.setState({winner:'Ganaste!!!!'})
+      }
+      else {
+        this.setState({winner:'Perdiste :('})
+      }
+    }
+
   }
+
   render() {
-    const { score :{ player, pc }, options } = this.state
+    const { score :{ player, pc }, options, choice, pcChoice, winner } = this.state
     return (
       <Container>
         <Content>
@@ -100,13 +138,18 @@ class App extends Component {
             </Score>
           </Header>
           <Options>
-            <Paragraph>Elije tu jugada</Paragraph>
+            <Paragraph>Elige tu jugada</Paragraph>
             {options.map((option,i) => {
               return(
                 <Button key={`button${i}`} color={option.color} text={option.text} handleClick={this.handleClick} />)}
               )
             }
           </Options>
+          <Choice>
+            <Text>Elegiste: <label>{choice}</label> </Text>
+            <Text>La PC eligiò: <label>{pcChoice}</label></Text>
+            <Text>{winner}</Text>
+          </Choice>
         </Content>
       </Container>
     );
