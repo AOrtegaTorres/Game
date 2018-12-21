@@ -112,11 +112,21 @@ class App extends Component {
     if (choice === pc) {
       this.setState({winner:'Empate'})
     }else {
+      let score = {...this.state.score}
       if ((choice === 'Piedra' && pc === 'Tijera') || (choice === 'Papel' && pc === 'Piedra') || (choice === 'Tijera' && pc === 'Papel')) {
-        this.setState({winner:'Ganaste!!!!'})
+        score.player += 1
+        this.setState({
+          winner:'Ganaste!!!!',
+          score
+        })
+
       }
       else {
-        this.setState({winner:'Perdiste :('})
+        score.pc += 1
+        this.setState({
+          winner:'Perdiste :(',
+          score
+        })
       }
     }
 
