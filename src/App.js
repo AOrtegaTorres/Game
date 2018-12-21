@@ -21,7 +21,6 @@ const Content = styled.div`
 
 const Header = styled.header`
   width: 100%;
-  height: 80px;
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
@@ -31,12 +30,18 @@ const Score = styled.div`
   flex-grow: 1;
   display:flex;
   flex-direction: column;
-  align-items: flex-end;
+  justify-content: center;
+  align-items: center;
   padding: 20px;
 `
 
-const TitleScore = styled.div`
+const TitleScore = styled.span`
   color: #951B00;
+  font-size: 30px;
+`
+
+const Players = styled.span`
+  color: black;
 `
 
 const Instruction = styled.div`
@@ -47,24 +52,35 @@ const Instruction = styled.div`
 `
 
 const Paragraph = styled.div`
-  
+  color:#A7A6A6;
+  font-size: 30px;
 `
 
 
 class App extends Component {
+  constructor(){
+    super()
+    this.state = {
+      score:{
+        pc:0,
+        player:0
+      },
+      options:['Piedra', 'Papel','Tijera']
+    }
+  }
   render() {
-    const  options =  ['Piedra', 'Papel','Tijera'];
+    const { player, pc } = this.state.score
     return (
       <Container>
         <Content>
           <Header>
             <Instruction>
-                <label>asdf</label>
-                <label>asdf</label>
+              <Paragraph>Juega Piedra, Papel o Tijera</Paragraph>
             </Instruction>
             <Score>
               <TitleScore>Score</TitleScore>
-              <label>asdf</label>
+              <Players>{`Tù: ${player}`}</Players>
+              <Players>{`PC: ${pc}`}</Players>
             </Score>
           </Header>
         </Content>
